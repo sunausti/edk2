@@ -1,0 +1,25 @@
+##  @file
+#  This is the Netboot binary file.
+#
+#  Copyright (c) 2021, Intel Corporation. All rights reserved.<BR>
+#
+#  This program and the accompanying materials
+#  are licensed and made available under the terms and conditions of the BSD License
+#  which accompanies this distribution. The full text of the license may be found at
+#  http://opensource.org/licenses/bsd-license.php
+#  THE PROGRAM IS DISTRIBUTED UNDER THE BSD LICENSE ON AN "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
+#
+#
+##
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010006
+  BASE_NAME                      = NetBoot
+  FILE_GUID                      = 4CDF2DAE-B4C7-482C-B468-99C812911FF5
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+
+[Binaries.X64]
+  PE32|X64/NetBoot.efi|*

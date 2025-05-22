@@ -354,20 +354,20 @@ INF MdeModulePkg/Application/BootManagerMenuApp/BootManagerMenuApp.inf
 !endif
 !endif
 
+INF  RuleOverride = BINARY USE = X64 UefiPayloadPkg/NetBoot/NetBoot.inf
 #
 # Shell
 #
-!if $(SHELL_TYPE) == BUILD_SHELL
-INF ShellPkg/DynamicCommand/TftpDynamicCommand/TftpDynamicCommand.inf
-!if $(PERFORMANCE_MEASUREMENT_ENABLE) == TRUE
-INF ShellPkg/DynamicCommand/DpDynamicCommand/DpDynamicCommand.inf
-!endif
-INF ShellPkg/Application/Shell/Shell.inf
-!endif
+#!if $(SHELL_TYPE) == BUILD_SHELL
+#INF ShellPkg/DynamicCommand/TftpDynamicCommand/TftpDynamicCommand.inf
+#!if $(PERFORMANCE_MEASUREMENT_ENABLE) == TRUE
+#INF ShellPkg/DynamicCommand/DpDynamicCommand/DpDynamicCommand.inf
+#!endif
+#INF ShellPkg/Application/Shell/Shell.inf
+#!endif
 
 !if $(UNIVERSAL_PAYLOAD) == TRUE
 !if $(SECURE_BOOT_ENABLE) == TRUE
-
 [FV.SECFV]
 FvNameGuid         = 2700E2F3-19D2-4E2D-9F13-BC891B9FC62C
 BlockSize          = $(FD_BLOCK_SIZE)

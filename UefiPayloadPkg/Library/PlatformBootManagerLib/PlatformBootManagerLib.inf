@@ -51,7 +51,7 @@
 [Guids]
   gEfiEndOfDxeEventGroupGuid
   gUefiShellFileGuid
-
+  gUefiPayloadNetBootAppGuid
 [Protocols]
   gEfiGenericMemTestProtocolGuid  ## CONSUMES
   gEfiGraphicsOutputProtocolGuid  ## CONSUMES

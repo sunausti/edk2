@@ -310,7 +310,7 @@ PlatformBootManagerAfterConsole (
 
   EfiBootManagerConnectAll ();
   EfiBootManagerRefreshAllBootOption ();
-
+  PlatformRegisterFvBootOption (&gUefiPayloadNetBootAppGuid, L"Netboot (iPXE)", LOAD_OPTION_ACTIVE);
   //
   // Register UEFI Shell
   //
