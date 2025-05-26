@@ -121,11 +121,14 @@ InternalCoreLocateHandle (
   IHANDLE          **ResultBuffer;
   VOID             *Interface;
 
+ DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 1\n"));
   if (BufferSize == NULL) {
+    DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 2\n"));
     return EFI_INVALID_PARAMETER;
   }
 
   if ((*BufferSize > 0) && (Buffer == NULL)) {
+    DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 3\n"));
     return EFI_INVALID_PARAMETER;
   }
 
@@ -147,6 +150,7 @@ InternalCoreLocateHandle (
   //
   switch (SearchType) {
     case AllHandles:
+      DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 4\n"));
       GetNext = CoreGetNextLocateAllHandles;
       break;
 
@@ -154,6 +158,7 @@ InternalCoreLocateHandle (
       //
       // Must have SearchKey for locate ByRegisterNotify
       //
+      DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 5\n"));
       if (SearchKey == NULL) {
         Status = EFI_INVALID_PARAMETER;
         break;
@@ -163,8 +168,10 @@ InternalCoreLocateHandle (
       break;
 
     case ByProtocol:
+      DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 6\n"));
       GetNext = CoreGetNextLocateByProtocol;
       if (Protocol == NULL) {
+        DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 7\n"));
         Status = EFI_INVALID_PARAMETER;
         break;
       }
@@ -172,8 +179,10 @@ InternalCoreLocateHandle (
       //
       // Look up the protocol entry and set the head pointer
       //
+      DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle Protocol uuid %g\n", Protocol));
       Position.ProtEntry = CoreFindProtocolEntry (Protocol, FALSE);
       if (Position.ProtEntry == NULL) {
+        DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 8\n"));
         Status = EFI_NOT_FOUND;
         break;
       }
@@ -182,6 +191,7 @@ InternalCoreLocateHandle (
       break;
 
     default:
+        DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 9\n"));
       Status = EFI_INVALID_PARAMETER;
       break;
   }
@@ -201,6 +211,7 @@ InternalCoreLocateHandle (
     //
     Handle = GetNext (&Position, &Interface);
     if (NULL == Handle) {
+      DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 10\n"));
       break;
     }
 
@@ -220,6 +231,7 @@ InternalCoreLocateHandle (
   // matching handles
   //
   if (ResultSize == 0) {
+      DEBUG ((DEBUG_INFO, "InternalCoreLocateHandle 11\n"));
     Status = EFI_NOT_FOUND;
   } else {
     //
@@ -494,6 +506,7 @@ CoreLocateDevicePath (
   //
   Status = CoreLocateHandleBuffer (ByProtocol, Protocol, NULL, &HandleCount, &Handles);
   if (EFI_ERROR (Status) || (HandleCount == 0)) {
+    DEBUG ((DEBUG_INFO, "CoreLocateDevicePath:EFI_NOT_FOUND\n"));
     return EFI_NOT_FOUND;
   }
 
@@ -706,6 +719,8 @@ CoreLocateHandleBuffer (
   //
   if (EFI_ERROR (Status) && (Status != EFI_BUFFER_TOO_SMALL)) {
     if (Status != EFI_INVALID_PARAMETER) {
+
+      DEBUG ((DEBUG_INFO, "CoreLocateHandleBuffer : EFI_NOT_FOUND\n"));
       Status = EFI_NOT_FOUND;
     }
 

@@ -133,6 +133,7 @@ EfiBootManagerConnectDevicePath (
     //
     RemainingDevicePath = DevicePathToConnect;
     Status              = gBS->LocateDevicePath (&gEfiDevicePathProtocolGuid, &RemainingDevicePath, &Handle);
+    DEBUG((DEBUG_INFO,"%s: Status:%r, Guid: %g\n",__func__,Status,gEfiDevicePathProtocolGuid));
     if (!EFI_ERROR (Status)) {
       if (Handle == PreviousHandle) {
         //
@@ -149,6 +150,7 @@ EfiBootManagerConnectDevicePath (
           // Always return EFI_NOT_FOUND here
           // to prevent dead loop when control handle is found but connection failded case
           //
+          DEBUG((DEBUG_INFO,"%s: EFI_NOT_FOUND\n", __func__));
           Status = EFI_NOT_FOUND;
         }
       }

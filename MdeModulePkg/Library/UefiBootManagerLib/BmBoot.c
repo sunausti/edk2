@@ -1985,7 +1985,7 @@ EfiBootManagerBoot (
   if (BootOption->Description == NULL) {
     DEBUG ((DEBUG_INFO | DEBUG_LOAD, "[Bds]Booting from unknown device path\n"));
   } else {
-    DEBUG ((DEBUG_INFO | DEBUG_LOAD, "[Bds]Booting %s\n", BootOption->Description));
+    DEBUG ((DEBUG_INFO | DEBUG_LOAD, "[Bds]Booting %s, %d\n", BootOption->Description, DevicePathType (BootOption->FilePath)));
   }
 
   DEBUG_CODE_END ();
@@ -1995,7 +1995,8 @@ EfiBootManagerBoot (
   if (DevicePathType (BootOption->FilePath) != BBS_DEVICE_PATH) {
     Status   = EFI_NOT_FOUND;
     FilePath = NULL;
-    EfiBootManagerConnectDevicePath (BootOption->FilePath, NULL);
+    Status = EfiBootManagerConnectDevicePath (BootOption->FilePath, NULL);
+    DEBUG ((DEBUG_INFO | DEBUG_LOAD, "[Bds]EfiBootManagerConnectDevicePath Status: %r\n", Status));
     FileBuffer = BmGetNextLoadOptionBuffer (LoadOptionTypeBoot, BootOption->FilePath, &FilePath, &FileSize);
     if (FileBuffer != NULL) {
       RamDiskDevicePath = BmGetRamDiskDevicePath (FilePath);

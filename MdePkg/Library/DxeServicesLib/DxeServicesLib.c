@@ -635,6 +635,7 @@ GetFileBufferByFilePath (
   // Check input File device path.
   //
   if ((FilePath == NULL) || (FileSize == NULL) || (AuthenticationStatus == NULL)) {
+    DEBUG ((DEBUG_ERROR, "%a:1 ", __func__));
     return NULL;
   }
 
@@ -654,6 +655,7 @@ GetFileBufferByFilePath (
   //
   OrigDevicePathNode = DuplicateDevicePath (FilePath);
   if (OrigDevicePathNode == NULL) {
+    DEBUG ((DEBUG_ERROR, "%a: 2 ", __func__));
     return NULL;
   }
 
@@ -669,6 +671,7 @@ GetFileBufferByFilePath (
     //
     FvNameGuid = EfiGetNameGuidFromFwVolDevicePathNode ((CONST MEDIA_FW_VOL_FILEPATH_DEVICE_PATH *)DevicePathNode);
     if (FvNameGuid == NULL) {
+      DEBUG ((DEBUG_ERROR, "%a: 3 ", __func__));
       Status = EFI_INVALID_PARAMETER;
     } else {
       //
@@ -688,6 +691,7 @@ GetFileBufferByFilePath (
                                AuthenticationStatus
                                );
         if (EFI_ERROR (Status)) {
+           DEBUG ((DEBUG_ERROR, "%a: 4 ", __func__));
           //
           // Try a raw file, since a PE32 SECTION does not exist
           //
@@ -754,6 +758,7 @@ GetFileBufferByFilePath (
               (DevicePathSubType (DevicePathNode) != MEDIA_FILEPATH_DP))
           {
             Status = EFI_UNSUPPORTED;
+           DEBUG ((DEBUG_ERROR, "%a: 5 ", __func__));
             break;
           }
 
@@ -849,6 +854,7 @@ GetFileBufferByFilePath (
   // Attempt to access the file via LoadFile2 interface
   //
   if (!BootPolicy) {
+    DEBUG ((DEBUG_ERROR, "%a: 6 ", __func__));
     DevicePathNode = OrigDevicePathNode;
     Status         = gBS->LocateDevicePath (&gEfiLoadFile2ProtocolGuid, &DevicePathNode, &Handle);
     if (!EFI_ERROR (Status)) {
@@ -894,6 +900,7 @@ GetFileBufferByFilePath (
   DevicePathNode = OrigDevicePathNode;
   Status         = gBS->LocateDevicePath (&gEfiLoadFileProtocolGuid, &DevicePathNode, &Handle);
   if (!EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "%a: 7 ", __func__));
     Status = gBS->HandleProtocol (Handle, &gEfiLoadFileProtocolGuid, (VOID **)&LoadFile);
     if (!EFI_ERROR (Status)) {
       //
@@ -928,6 +935,7 @@ GetFileBufferByFilePath (
 Finish:
 
   if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "%a: 8, Status: %x ", __func__, Status));
     if (ImageBuffer != NULL) {
       FreePool (ImageBuffer);
       ImageBuffer = NULL;

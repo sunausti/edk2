@@ -1219,7 +1219,7 @@ EfiBootManagerFreeLoadOptions (
                         When it's LoadOptionTypeMax, the routine only guarantees
                         the load option is a valid PE image but doesn't guarantee
                         the PE's subsystem type is valid.
-  @param[in] FileBuffer The PE file buffer of the load option.
+  @param[in] FileBuffen The PE file buffer of the load option.
   @param[in] FileSize   The size of the load option file.
 
   @retval TRUE  The PE header of the load option is valid.
@@ -1328,6 +1328,7 @@ BmGetNextLoadOptionBuffer (
   do {
     PreFullPath = CurFullPath;
     CurFullPath = BmGetNextLoadOptionDevicePath (FilePath, CurFullPath);
+    DEBUG ((DEBUG_INFO, "[Bds]PreFullPath is %s, CurFullPath is %s,\n", PreFullPath, CurFullPath));
     //
     // Only free the full path created *inside* this routine
     //
@@ -1336,6 +1337,7 @@ BmGetNextLoadOptionBuffer (
     }
 
     if (CurFullPath == NULL) {
+      DEBUG ((DEBUG_INFO, "[Bds] CurFullPath is NULL,\n"));
       break;
     }
 
@@ -1355,10 +1357,12 @@ BmGetNextLoadOptionBuffer (
       //
       FreePool (FileBuffer);
       FileBuffer = NULL;
+      DEBUG ((DEBUG_INFO, "[Bds] PeHeader is not Valid\n"));
     }
   } while (FileBuffer == NULL);
 
   if (FileBuffer == NULL) {
+    DEBUG ((DEBUG_INFO, "[Bds] FileBuffer is NULL\n"));
     CurFullPath   = NULL;
     LocalFileSize = 0;
   }
