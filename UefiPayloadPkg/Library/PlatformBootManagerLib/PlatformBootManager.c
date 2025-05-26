@@ -140,6 +140,21 @@ BdsGetShellFvDevicePath (
       //
       break;
     }
+    Status = Fv->ReadFile (
+                   Fv,
+                   &gUefiPayloadNetBootAppGuid,
+                   NULL,
+                   &Size,
+                   &FoundType,
+                   &FileAttributes,
+                   &AuthenticationStatus
+                   );
+    if (!EFI_ERROR (Status)) {
+      //
+      // Found the netboot file
+      //
+      break;
+    }
   }
 
   if (EFI_ERROR (Status)) {
@@ -314,7 +329,7 @@ PlatformBootManagerAfterConsole (
   //
   // Register UEFI Shell
   //
-  PlatformRegisterFvBootOption (&gUefiShellFileGuid, L"UEFI Shell", LOAD_OPTION_ACTIVE);
+  //PlatformRegisterFvBootOption (&gUefiShellFileGuid, L"UEFI Shell", LOAD_OPTION_ACTIVE);
 
   if (FixedPcdGetBool (PcdBootManagerEscape)) {
     Print (
